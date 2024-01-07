@@ -4,10 +4,11 @@ const server = http.createServer((req, res) => {
   const url = req.url;
   const method = req.method;
   if (url === '/') {
+    res.setHeader('Content-Type', 'text/html');
     res.write('<html>');
-    res.write('<head><title>all</title></head>');
+    res.write('<head><title>Assignment 1</title></head>');
     res.write(
-      '<body><h1>Haloo</h1><form action="/create-user" method="POST"><input type="text" name="user-name"> <button type="submit">Send</button></form></body>'
+      '<body><h1>Haloo</h1><form action="/create-user" method="POST"><input type="text" name="username"><button type="submit">Send</button></form></body>'
     );
     res.write('</html>');
     return res.end();
@@ -24,14 +25,15 @@ const server = http.createServer((req, res) => {
   if (url === '/create-user' && method === 'POST') {
     const body = [];
     req.on('data', (chunk) => {
-      console.log(chunk);
       body.push(chunk);
     });
-    return req.on('end', () => {
+    req.on('end', () => {
       const parseBody = Buffer.concat(body).toString();
-      const message = parseBody.split('=')[1];
-      console.log(message);
+      console.log(parseBody.split('=')[1]);
     });
+    res.statusCode = 302;
+    res.setHeader('Location', '/');
+    res.end();
   }
 });
 
