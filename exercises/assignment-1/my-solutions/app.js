@@ -15,10 +15,12 @@ const app = express();
 
 // perhatikan urutan route, jika /users di tulis setelah / maka tidak akan di proses, karena code mengcompile dari atas ke bawah
 app.use('/users', (req, res, next) => {
+  console.log('/ middleware2');
   res.send('<ul><li>John doe</li><li>Jane doe</li></ul>');
 });
 
 app.use('/', (req, res, next) => {
+  console.log('/ middleware1');
   res.send('<h1>This is home</h1>');
 });
 
